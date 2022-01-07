@@ -1,16 +1,22 @@
+# Team :
+FARKHANI Sofiane
+CHABAL Théo
+
 # weather
 
-A new Flutter project.
+La méteo logué dans ta poche
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Objectifs
 
-A few resources to get you started if this is your first Flutter project:
+- Connecté un utilisateur
+- avoir une page avec la météo principale --> celle-ci contient :
+    -Un ensemble de page en OnePage avec :
+      -La météo d'une ville principale 
+      -La météo des villes que l'utilisateur ajoute
+      
+-Page secondaire avec : 
+    -Une carte type google map --> fonctionnalité :
+      -Affiche une PopUp avec la météo du lieux et un raccourci lui permetant de d'ajouter le lieux a sa page de Météo.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
