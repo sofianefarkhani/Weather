@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:weather/ui/content/content_view.dart';
 import 'package:weather/ui/login/login_view.dart';
-import 'package:weather/ui/register/register_view.dart';
 
 class LoginWrapper extends StatelessWidget {
   const LoginWrapper({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class LoginWrapper extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           if (snapshot.hasData) {
-            return const RegisterPage();
+            return const ContentPage();
           } else {
             return const LoginPage();
           }

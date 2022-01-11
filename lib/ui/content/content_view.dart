@@ -1,0 +1,31 @@
+import 'package:flutter/material.dart';
+import 'package:stacked/stacked.dart';
+import 'package:weather/di/dependency_graph.dart';
+import 'package:weather/ui/content/content_viewmodel.dart';
+import 'package:weather/ui/map/map_view.dart';
+import 'package:weather/ui/weatherforecast/weatherforecast_view.dart';
+
+class ContentPage extends StatelessWidget {
+  const ContentPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ViewModelBuilder<ContentViewModel>.reactive(
+      viewModelBuilder: () => locator<ContentViewModel>(),
+      onModelReady: (model) async => await model.initialize(),
+      builder: (context, viewModel, child) => Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: (newIndex) => viewModel.setIndex(newIndex),
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.apartment), label: "Villes"),
+            BottomNavigationBarItem(icon: Icon(Icons.map), label: "Map"),
+          ],
+          currentIndex: viewModel.currentIndex,
+        ),
+        body: const [WeatherForecastPage(), MapPage()]
+            .elementAt(viewModel.currentIndex),
+      ),
+    );
+  }
+}
