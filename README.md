@@ -22,4 +22,6 @@ La méteo logué dans ta poche
 ## Documentations
 [API Weather](https://weather.com/swagger-docs/ui/sun/v1/sunV1DailyForecast.json)
 
+[Exemple d'interface](https://drive.google.com/file/d/1ttyf0pIskBcAXpwc9CHX6P0P-vQW0Q7W/view?usp=sharing)
+
 
