@@ -14,6 +14,21 @@ class ContentPage extends StatelessWidget {
       viewModelBuilder: () => locator<ContentViewModel>(),
       onModelReady: (model) async => await model.initialize(),
       builder: (context, viewModel, child) => Scaffold(
+        appBar: AppBar(
+          title: const Text("Weather"),
+          actions: [
+            IconButton(
+              onPressed: () {
+                viewModel.logout();
+              },
+              icon: const Icon(Icons.logout),
+            ),
+          ],
+          leading: IconButton(
+            onPressed: () => {viewModel.navigateToProfileView(context)},
+            icon: const Icon(Icons.account_circle_rounded),
+          ),
+        ),
         bottomNavigationBar: BottomNavigationBar(
           onTap: (newIndex) => viewModel.setIndex(newIndex),
           items: const [

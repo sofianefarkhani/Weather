@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   ElevatedButton(
                     onPressed: () => viewModel.login(context),
-                    child: const Text('Submit'),
+                    child: const Text('Connexion'),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 40),

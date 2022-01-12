@@ -90,11 +90,43 @@ class AuthenticationService with ReactiveServiceMixin {
     }
   }
 
+  Future updatePassword(String newPassword, BuildContext context) async {
+    try {
+      await _auth.currentUser!.updatePassword(newPassword);
+    } on FirebaseAuthException catch (exception) {
+      switch (exception.code) {
+        case 'requires-recent-login':
+          displaySnackbarError(context,
+              "L'utilisateur doit se reconnecter afin de pouvoir réaliser cette opération.");
+          break;
+        case 'weak-password':
+          displaySnackbarError(context, "Mot de passe trop faible");
+          break;
+        default:
+      }
+    }
+  }
+
+  Future deleteUser(BuildContext context) async {
+    try {
+      await _auth.currentUser!.delete();
+    } on FirebaseAuthException catch (exception) {
+      if (exception.code == 'requires-recent-login') {
+        displaySnackbarError(context,
+            "L'utilisateur doit se reconnecter afin de pouvoir réaliser cette opération.");
+      }
+    }
+  }
+
   displaySnackbarError(BuildContext context, String displayedError) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-          content:
-              Text(displayedError, style: const TextStyle(color: Colors.red))),
+        content: Text(
+          displayedError,
+          style: const TextStyle(color: Colors.red),
+        ),
+        backgroundColor: Colors.white,
+      ),
     );
   }
 }

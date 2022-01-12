@@ -65,7 +65,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   ElevatedButton(
                     onPressed: () => viewModel.register(context),
-                    child: const Text('Envoyer'),
+                    child: const Text("S'inscrire"),
                   ),
                 ],
               ),
