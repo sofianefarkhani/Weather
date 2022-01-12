@@ -30,11 +30,19 @@ class ContentPage extends StatelessWidget {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: const Color(0xff030317),
+          selectedItemColor: const Color(0xff00A1FF),
+          unselectedItemColor: Colors.white,
           onTap: (newIndex) => viewModel.setIndex(newIndex),
           items: const [
             BottomNavigationBarItem(
-                icon: Icon(Icons.apartment), label: "Villes"),
-            BottomNavigationBarItem(icon: Icon(Icons.map), label: "Map"),
+              icon: Icon(Icons.apartment),
+              label: "Villes",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.map),
+              label: "Map",
+            ),
           ],
           currentIndex: viewModel.currentIndex,
         ),
