@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:stacked/stacked.dart';
 import 'package:weather/di/dependency_graph.dart';
 import 'package:weather/services/authentication_service.dart';
+import 'package:weather/services/apiWeather_service.dart';
+import 'package:weather/ui/weatherforecast/weatherforecast_viewmodel.dart';
 
 class WeatherForecastPage extends StatelessWidget {
   const WeatherForecastPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ViewModelBuilder<WeatherForeastViewModel>.reactive(
+      viewModelBuilder: () => locator<WeatherForeastViewModel>(),
+      onModelReady: (model) async => await model.initialize(),
+      builder: (context, viewModel, child) => Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -23,9 +29,24 @@ class WeatherForecastPage extends StatelessWidget {
                 locator<AuthenticationService>().logout();
               },
             ),
+            /*
+            ElevatedButton(
+              child: const Text("getMeteo"),
+              onPressed: () {
+                locator<apiWeather>().getMeteoInTime("Limoges");
+              },
+            ),
+            */
+            locator<ApiWeather>().meteo!=null ?  Image(
+              image: NetworkImage('http://openweathermap.org/img/wn/'+ locator<ApiWeather>().meteo!.icon!+'.png'),)
+              : const CircularProgressIndicator(),
+
+            Text(locator<ApiWeather>().meteo!= null ?
+               "A : "+locator<ApiWeather>().meteo!.ville! +" il fait : " +locator<ApiWeather>().meteo!.temperature! + " avec un temps : " +locator<ApiWeather>().meteo!.description! : "N/A"),
           ],
         ),
       ),
-    );
+    )
+  );
   }
 }
