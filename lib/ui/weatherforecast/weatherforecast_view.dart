@@ -37,8 +37,13 @@ class WeatherForecastPage extends StatelessWidget {
               },
             ),
             */
-            locator<ApiWeather>().meteo!=null ?  Image(
-              image: NetworkImage('http://openweathermap.org/img/wn/'+ locator<ApiWeather>().meteo!.icon!+'.png'),)
+            locator<ApiWeather>().meteo!=null ?  Image.network('http://openweathermap.org/img/wn/'+ locator<ApiWeather>().meteo!.icon!+'@4x.png',fit: BoxFit.contain, scale: 0.7,
+            loadingBuilder: (context, child, progress){
+              return progress == null
+                ? child
+                : const LinearProgressIndicator();
+            },)
+             
               : const CircularProgressIndicator(),
 
             Text(locator<ApiWeather>().meteo!= null ?

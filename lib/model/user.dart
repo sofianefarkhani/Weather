@@ -12,3 +12,11 @@ class WeatherUser {
     return WeatherUser.fromJSON(dataMap);
   }
 }
+
+
+class WeatherUser2{
+  WeatherUser2({this.name,this.villes});
+
+  String? name;
+  List<String>? villes;
+}

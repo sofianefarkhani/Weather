@@ -73,6 +73,7 @@ class AuthenticationService with ReactiveServiceMixin {
       if (userCreds.user != null) {
         await _firestore.collection('users').doc(userCreds.user!.uid).set({
           'name': name,
+          'ville': []
         });
       }
     } on FirebaseAuthException catch (exception) {
