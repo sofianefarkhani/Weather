@@ -54,24 +54,56 @@ class _LoginPageState extends State<LoginPage> {
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 20),
                                     child: TextField(
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                      cursorColor: Colors.white,
                                       controller: viewModel.emailController,
                                       onSubmitted: (value) {
                                         viewModel.verifyEmail(value);
                                       },
                                       decoration: const InputDecoration(
-                                        border: OutlineInputBorder(),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                         labelText: 'Email',
+                                        labelStyle: TextStyle(
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
                                   ),
                                   TextField(
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                    cursorColor: Colors.white,
                                     obscureText: true,
                                     controller: viewModel.passwordController,
                                     onSubmitted: (value) =>
                                         viewModel.verifyPassword(value),
                                     decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                       labelText: 'Password',
+                                      labelStyle: TextStyle(
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
                                 ],

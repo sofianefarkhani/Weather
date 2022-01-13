@@ -65,8 +65,20 @@ class _RegisterPageState extends State<RegisterPage> {
                                               viewModel.verifyEmail(value);
                                             },
                                             decoration: const InputDecoration(
-                                              border: OutlineInputBorder(),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
                                               labelText: 'Email',
+                                              labelStyle: TextStyle(
+                                                color: Colors.white,
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -80,16 +92,40 @@ class _RegisterPageState extends State<RegisterPage> {
                                             onSubmitted: (value) =>
                                                 viewModel.verifyPassword(value),
                                             decoration: const InputDecoration(
-                                              border: OutlineInputBorder(),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: Colors.white,
+                                                ),
+                                              ),
                                               labelText: 'Password',
+                                              labelStyle: TextStyle(
+                                                color: Colors.white,
+                                              ),
                                             ),
                                           ),
                                         ),
                                         TextField(
                                           controller: viewModel.nameController,
                                           decoration: const InputDecoration(
-                                            border: OutlineInputBorder(),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.white,
+                                              ),
+                                            ),
                                             labelText: 'Nom',
+                                            labelStyle: TextStyle(
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
                                       ],
