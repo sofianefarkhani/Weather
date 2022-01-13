@@ -148,7 +148,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       width: 150,
                       child: const Text(
                         "S'inscrire",
-                        style: TextStyle(fontSize: 18, color: Colors.black),
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),

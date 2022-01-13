@@ -17,15 +17,34 @@ class _MapPage extends State<MapPage> {
     return ViewModelBuilder<MapViewModel>.reactive(
       viewModelBuilder: () => locator<MapViewModel>(),
       builder: (context, viewModel, child) {
-        return const Scaffold(
+        return Scaffold(
           body: GoogleMap(
-            initialCameraPosition: CameraPosition(
+            onMapCreated: (controller) {
+              setState(() {
+                viewModel.mapController = controller;
+              });
+            },
+            initialCameraPosition: const CameraPosition(
               target: LatLng(45.833619, 1.261105),
-              zoom: 15,
+              zoom: 9,
             ),
+            zoomControlsEnabled: true,
             compassEnabled: false,
             tiltGesturesEnabled: false,
-            myLocationEnabled: true,
+            myLocationEnabled: false,
+            zoomGesturesEnabled: true,
+            myLocationButtonEnabled: false,
+            onLongPress: (pos) {
+              setState(() {
+                viewModel.addMarker(pos);
+              });
+            },
+            markers: viewModel.markers.toSet(),
+          ),
+          floatingActionButton: FloatingActionButton(
+            child: const Icon(Icons.location_on_outlined),
+            backgroundColor: const Color(0xff00A1FF),
+            onPressed: viewModel.getCurrentLocation,
           ),
         );
       },

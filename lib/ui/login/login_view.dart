@@ -17,13 +17,17 @@ class _LoginPageState extends State<LoginPage> {
     return ViewModelBuilder<LoginViewModel>.reactive(
       viewModelBuilder: () => locator<LoginViewModel>(),
       builder: (context, viewModel, child) => Scaffold(
+        appBar: AppBar(
+          title: const Text("Connexion"),
+          backgroundColor: const Color(0xff00A1FF),
+        ),
         backgroundColor: const Color(0xff030317),
         body: Column(
           children: [
             GlowContainer(
-              height: MediaQuery.of(context).size.height - 230,
+              height: MediaQuery.of(context).size.height - 330,
               margin: const EdgeInsets.all(2),
-              padding: const EdgeInsets.only(top: 50, left: 30, right: 30),
+              padding: const EdgeInsets.only(left: 30, right: 30),
               glowColor: const Color(0xff00A1FF).withOpacity(0.5),
               borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(60),
@@ -126,7 +130,10 @@ class _LoginPageState extends State<LoginPage> {
                 width: 150,
                 child: const Text(
                   "Connexion",
-                  style: TextStyle(fontSize: 18, color: Colors.black),
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
@@ -134,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.symmetric(vertical: 40),
               child: GestureDetector(
                 onTap: () => viewModel.navigateToRegisterView(context),
-                child: const Text(
+                child: const GlowText(
                   "Vous n'avez pas de compte ? Inscrivez-vous",
                   style: TextStyle(
                     color: Colors.white,
