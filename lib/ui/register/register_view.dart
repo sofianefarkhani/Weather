@@ -154,68 +154,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ],
               ),
-            )
-
-        /*
-      {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text("Inscription"),
-          ),
-          body: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Inscrivez-vous',
-                    style: Theme.of(context).textTheme.headline4,
-                  ),
-                  Text(viewModel.displayedError),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: TextField(
-                      controller: viewModel.emailController,
-                      onSubmitted: (value) {
-                        viewModel.verifyEmail(value);
-                      },
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Email',
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 20),
-                    child: TextField(
-                      obscureText: true,
-                      controller: viewModel.passwordController,
-                      onSubmitted: (value) => viewModel.verifyPassword(value),
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Password',
-                      ),
-                    ),
-                  ),
-                  TextField(
-                    controller: viewModel.nameController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Nom',
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () => viewModel.register(context),
-                    child: const Text("S'inscrire"),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-      */
-        );
+            ));
   }
 }
