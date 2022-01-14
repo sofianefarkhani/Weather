@@ -25,7 +25,7 @@ class _ProfilePageState extends State<ProfilePage> {
         body: Column(
           children: [
             GlowContainer(
-              height: MediaQuery.of(context).size.height - 230,
+              height: MediaQuery.of(context).size.height - 330,
               margin: const EdgeInsets.all(2),
               padding: const EdgeInsets.only(top: 50, left: 30, right: 30),
               glowColor: const Color(0xff00A1FF).withOpacity(0.5),
@@ -64,8 +64,20 @@ class _ProfilePageState extends State<ProfilePage> {
                                       onSubmitted: (value) =>
                                           viewModel.verifyPassword(value),
                                       decoration: const InputDecoration(
-                                        border: OutlineInputBorder(),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                         labelText: 'Nouvea mot de passe',
+                                        labelStyle: TextStyle(
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -78,9 +90,21 @@ class _ProfilePageState extends State<ProfilePage> {
                                       onSubmitted: (value) =>
                                           viewModel.verifyPassword(value),
                                       decoration: const InputDecoration(
-                                        border: OutlineInputBorder(),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                         labelText:
                                             'Confirmation du mot de passe',
+                                        labelStyle: TextStyle(
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
                                   ),

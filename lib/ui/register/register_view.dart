@@ -25,7 +25,7 @@ class _RegisterPageState extends State<RegisterPage> {
               body: Column(
                 children: [
                   GlowContainer(
-                    height: MediaQuery.of(context).size.height - 230,
+                    height: MediaQuery.of(context).size.height - 330,
                     margin: const EdgeInsets.all(2),
                     padding:
                         const EdgeInsets.only(top: 50, left: 30, right: 30),
