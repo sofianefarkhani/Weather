@@ -1,10 +1,12 @@
 class WeatherUser {
-  WeatherUser({this.name});
+  WeatherUser({this.name,this.villes});
 
   String? name;
+  List<String>? villes;
 
   factory WeatherUser.fromJSON(Map<String, dynamic> json) => WeatherUser(
         name: json['name'],
+        villes: json['villes'],
       );
 
   static WeatherUser fromFirestore(Object data) {
@@ -13,10 +15,3 @@ class WeatherUser {
   }
 }
 
-
-class WeatherUser2{
-  WeatherUser2({this.name,this.villes});
-
-  String? name;
-  List<String>? villes;
-}
