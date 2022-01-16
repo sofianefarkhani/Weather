@@ -1,5 +1,8 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_options.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 import 'package:weather/di/dependency_graph.dart';
@@ -9,6 +12,18 @@ import 'package:weather/services/authentication_service.dart';
 
 @injectable
 class WeatherForeastViewModel extends BaseViewModel {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+
+String getCurrentUID() {
+    String uid = '';
+    if (_auth.currentUser != null) {
+      uid = _auth.currentUser!.uid;
+    }
+    return uid;
+  }
+
   final ApiWeather _meteo;
   List<MeteoInCity> _meteos = [];
 
@@ -32,6 +47,14 @@ class WeatherForeastViewModel extends BaseViewModel {
         }
       }
     }
+  }
+
+  void deleteCityOfList(String villeDelete){
+      var villes  = [];
+      villes.add(villeDelete);
+      var userInfo = _firestore.collection('users').doc(getCurrentUID());
+      userInfo.update({'villes': FieldValue.arrayRemove(villes), });
+      initialize();
   }
 
   carouselChangeCity(int index, CarouselPageChangedReason reason) {}
