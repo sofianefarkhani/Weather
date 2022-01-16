@@ -62,7 +62,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                             controller:
                                                 viewModel.emailController,
                                             onSubmitted: (value) {
-                                              viewModel.verifyEmail(value);
+                                              viewModel.verifyEmail(
+                                                  context, value);
                                             },
                                             decoration: const InputDecoration(
                                               focusedBorder: OutlineInputBorder(
@@ -89,8 +90,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                             obscureText: true,
                                             controller:
                                                 viewModel.passwordController,
-                                            onSubmitted: (value) =>
-                                                viewModel.verifyPassword(value),
+                                            onSubmitted: (value) => viewModel
+                                                .verifyPassword(context, value),
                                             decoration: const InputDecoration(
                                               focusedBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(

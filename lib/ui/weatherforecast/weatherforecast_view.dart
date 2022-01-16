@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_glow/flutter_glow.dart';
 import 'package:stacked/stacked.dart';
 import 'package:weather/di/dependency_graph.dart';
-import 'package:weather/services/apiWeather_service.dart';
 import 'package:weather/ui/weatherforecast/weatherforecast_viewmodel.dart';
 
 class WeatherForecastPage extends StatelessWidget {
@@ -20,8 +19,8 @@ class WeatherForecastPage extends StatelessWidget {
           children: [
             CarouselSlider(
               carouselController: viewModel.carouselController,
-              items: [
-                GlowContainer(
+              items: viewModel.meteos.map((meteo) {
+                return GlowContainer(
                   height: MediaQuery.of(context).size.height - 360,
                   margin: const EdgeInsets.all(2),
                   padding: const EdgeInsets.only(
@@ -41,21 +40,18 @@ class WeatherForecastPage extends StatelessWidget {
                           height: 430,
                           child: Stack(
                             children: [
-                              locator<ApiWeather>().meteo != null
-                                  ? Image.network(
-                                      'http://openweathermap.org/img/wn/' +
-                                          locator<ApiWeather>().meteo!.icon! +
-                                          '@4x.png',
-                                      fit: BoxFit.contain,
-                                      scale: 0.7,
-                                      loadingBuilder:
-                                          (context, child, progress) {
-                                        return progress == null
-                                            ? child
-                                            : const LinearProgressIndicator();
-                                      },
-                                    )
-                                  : const CircularProgressIndicator(),
+                              Image.network(
+                                'http://openweathermap.org/img/wn/' +
+                                    meteo.icon! +
+                                    '@4x.png',
+                                fit: BoxFit.contain,
+                                scale: 0.7,
+                                loadingBuilder: (context, child, progress) {
+                                  return progress == null
+                                      ? child
+                                      : const LinearProgressIndicator();
+                                },
+                              ),
                               Positioned(
                                 bottom: 0,
                                 right: 0,
@@ -67,12 +63,7 @@ class WeatherForecastPage extends StatelessWidget {
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 20),
                                         child: Text(
-                                          locator<ApiWeather>().meteo != null
-                                              ? locator<ApiWeather>()
-                                                  .meteo!
-                                                  .ville!
-                                                  .toUpperCase()
-                                              : "N/A",
+                                          meteo.ville!.toUpperCase(),
                                           style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 30,
@@ -93,14 +84,8 @@ class WeatherForecastPage extends StatelessWidget {
                                                 ),
                                               ),
                                               TextSpan(
-                                                text: locator<ApiWeather>()
-                                                            .meteo !=
-                                                        null
-                                                    ? locator<ApiWeather>()
-                                                            .meteo!
-                                                            .temperature! +
-                                                        " °C"
-                                                    : "N/A",
+                                                text:
+                                                    meteo.temperature! + " °C",
                                                 style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 20,
@@ -108,16 +93,11 @@ class WeatherForecastPage extends StatelessWidget {
                                                 ),
                                               ),
                                             ],
-
                                           ),
                                         ),
                                       ),
                                       Text(
-                                        locator<ApiWeather>().meteo != null
-                                            ? locator<ApiWeather>()
-                                                .meteo!
-                                                .description!
-                                            : "N/A",
+                                        meteo.description.toString(),
                                         style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 20,
@@ -134,8 +114,8 @@ class WeatherForecastPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-              ],
+                );
+              }).toList(),
               options: CarouselOptions(
                 scrollDirection: Axis.horizontal,
                 height: MediaQuery.of(context).size.height - 360,
@@ -146,7 +126,7 @@ class WeatherForecastPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 40),
               child: GestureDetector(
-                onTap: () {},
+                onTap: () => {},
                 child: const GlowText(
                   'Supprimer la ville',
                   style: TextStyle(
@@ -158,46 +138,6 @@ class WeatherForecastPage extends StatelessWidget {
           ],
         ),
       ),
-
-      /*Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text("Je suis connecté"),
-            Text(locator<AuthenticationService>().weatherUser != null
-                ? locator<AuthenticationService>().weatherUser!.name ?? "N/A"
-                : "N/A"),
-            const Text("Page avec la liste des météos"),
-            ElevatedButton(
-              child: const Text("Se déconnecter"),
-              onPressed: () {
-                locator<AuthenticationService>().logout();
-              },
-            ),
-            /*
-            ElevatedButton(
-              child: const Text("getMeteo"),
-              onPressed: () {
-                locator<apiWeather>().getMeteoInTime("Limoges");
-              },
-            ),
-            */
-            locator<ApiWeather>().meteo!=null ?  Image.network('http://openweathermap.org/img/wn/'+ locator<ApiWeather>().meteo!.icon!+'@4x.png',fit: BoxFit.contain, scale: 0.7,
-            loadingBuilder: (context, child, progress){
-              return progress == null
-                ? child
-                : const LinearProgressIndicator();
-            },)
-             
-              : const CircularProgressIndicator(),
-
-            Text(locator<ApiWeather>().meteo!= null ?
-               "A : "+locator<ApiWeather>().meteo!.ville! +" il fait : " +locator<ApiWeather>().meteo!.temperature! + " avec un temps : " +locator<ApiWeather>().meteo!.description! : "N/A"),
-          ],
-        ),
-      ),
-    )*/
     );
   }
 }
