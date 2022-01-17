@@ -10,7 +10,7 @@ import 'package:weather/di/dependency_graph.dart';
 import 'package:weather/model/meteo_in_city.dart';
 import 'package:weather/services/api_weather_service.dart';
 import 'package:weather/ui/weatherforecast/weatherforecast_viewmodel.dart';
-
+import 'package:weather/utils/utils.dart';
 
 @injectable
 class MapViewModel extends BaseViewModel {
