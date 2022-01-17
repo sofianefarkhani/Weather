@@ -120,13 +120,13 @@ class WeatherForecastPage extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 height: MediaQuery.of(context).size.height - 360,
                 viewportFraction: 1,
-                onPageChanged: (index, reason) => viewModel.carouselChangeCity,
+                onPageChanged: (index, reason) => viewModel.carouselChangeCity(index,reason),
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 40),
               child: GestureDetector(
-                onTap: () => {},
+                onTap: () => {viewModel.deleteCityOfList(viewModel.meteos[viewModel.currentIndex].ville!.toString())},
                 child: const GlowText(
                   'Supprimer la ville',
                   style: TextStyle(

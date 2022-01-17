@@ -19,6 +19,7 @@ class ContentViewModel extends BaseViewModel {
 
   Future initialize() async {
     await _authenticationService.getWeatherUserFromFirestore();
+    notifyListeners();
   }
 
   void setIndex(int newIndex) {

@@ -56,12 +56,16 @@ String getCurrentUID() {
       var villes  = [];
       villes.add(villeDelete);
       var userInfo = _firestore.collection('users').doc(getCurrentUID());
-      userInfo.update({'villes': FieldValue.arrayRemove(villes), });
-      initialize();
+      userInfo.update({'ville': FieldValue.arrayRemove(villes), });
+      MeteoInCity elementNeedDelete = _meteos.firstWhere((element) => element.ville==villeDelete,);
+      _meteos.remove(elementNeedDelete);
+      notifyListeners();
   }
 
   void carouselChangeCity(int index, CarouselPageChangedReason reason) {
+    
     _currentIndex = index;
+    
   }
 
 }

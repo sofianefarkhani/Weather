@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:weather/di/dependency_graph.dart';
+import 'package:weather/model/user.dart';
+import 'package:weather/services/authentication_service.dart';
 import 'package:weather/ui/content/content_viewmodel.dart';
 import 'package:weather/ui/map/map_view.dart';
 import 'package:weather/ui/weatherforecast/weatherforecast_view.dart';
@@ -17,12 +20,19 @@ class ContentPage extends StatelessWidget {
         appBar: AppBar(
           title: const Text("Weather"),
           actions: [
-            IconButton(
-              onPressed: () {
-                viewModel.logout();
-              },
-              icon: const Icon(Icons.logout),
-            ),
+            Container(child: Row(
+              children: [
+                Text(locator<AuthenticationService>().weatherUser!.name.toString()),
+                IconButton(
+                  onPressed: () {
+                    viewModel.logout();
+                  },
+                  icon: const Icon(Icons.logout),
+      
+                ),
+              ],
+            ) ,)
+            
           ],
           leading: IconButton(
             onPressed: () => {viewModel.navigateToProfileView(context)},
