@@ -112,6 +112,7 @@ class AuthenticationService with ReactiveServiceMixin {
 
   Future deleteUser(BuildContext context) async {
     try {
+      _firestore.collection('users').doc(currentUser!.uid).delete();
       await _auth.currentUser!.delete();
     } on FirebaseAuthException catch (exception) {
       if (exception.code == 'requires-recent-login') {
