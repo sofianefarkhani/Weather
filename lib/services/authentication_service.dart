@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 import 'package:weather/model/user.dart';
+import 'package:weather/utils/utils.dart';
 
 @lazySingleton
 class AuthenticationService with ReactiveServiceMixin {
@@ -47,13 +48,13 @@ class AuthenticationService with ReactiveServiceMixin {
     } on FirebaseAuthException catch (exception) {
       switch (exception.code) {
         case 'user-not-found':
-          displaySnackbarError(context, "Utilisateur non trouvé");
+          Utils.displayMessage(context, "Utilisateur non trouvé");
           break;
         case 'wrong-password':
-          displaySnackbarError(context, "Mot de passe incorrect");
+          Utils.displayMessage(context, "Mot de passe incorrect");
           break;
         default:
-          displaySnackbarError(context, exception.toString());
+          Utils.displayMessage(context, exception.toString());
           break;
       }
       return null;
@@ -71,21 +72,22 @@ class AuthenticationService with ReactiveServiceMixin {
           email: email, password: password);
 
       if (userCreds.user != null) {
-        await _firestore.collection('users').doc(userCreds.user!.uid).set({
-          'name': name,
-          'ville': []
-        });
+        await _firestore
+            .collection('users')
+            .doc(userCreds.user!.uid)
+            .set({'name': name, 'ville': []});
       }
     } on FirebaseAuthException catch (exception) {
       switch (exception.code) {
         case 'email-already-in-use':
-          displaySnackbarError(context, "Email déjà utilisé");
+          Utils.displayMessage(context, "Email déjà utilisé");
           break;
         case 'weak-password':
-          displaySnackbarError(context, "Mot de passe trop faible");
+          Utils.displayMessage(context, "Mot de passe trop faible");
           break;
         default:
-          displaySnackbarError(context, exception.toString());
+          Utils.displayMessage(context, exception.toString());
+          break;
       }
       return null;
     }
@@ -97,11 +99,11 @@ class AuthenticationService with ReactiveServiceMixin {
     } on FirebaseAuthException catch (exception) {
       switch (exception.code) {
         case 'requires-recent-login':
-          displaySnackbarError(context,
+          Utils.displayMessage(context,
               "L'utilisateur doit se reconnecter afin de pouvoir réaliser cette opération.");
           break;
         case 'weak-password':
-          displaySnackbarError(context, "Mot de passe trop faible");
+          Utils.displayMessage(context, "Mot de passe trop faible");
           break;
         default:
       }
@@ -113,21 +115,9 @@ class AuthenticationService with ReactiveServiceMixin {
       await _auth.currentUser!.delete();
     } on FirebaseAuthException catch (exception) {
       if (exception.code == 'requires-recent-login') {
-        displaySnackbarError(context,
+        Utils.displayMessage(context,
             "L'utilisateur doit se reconnecter afin de pouvoir réaliser cette opération.");
       }
     }
-  }
-
-  displaySnackbarError(BuildContext context, String displayedError) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          displayedError,
-          style: const TextStyle(color: Colors.red),
-        ),
-        backgroundColor: Colors.white,
-      ),
-    );
   }
 }

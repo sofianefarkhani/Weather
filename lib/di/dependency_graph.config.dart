@@ -9,7 +9,6 @@ import 'package:injectable/injectable.dart' as _i2;
 
 import '../services/apiWeather_service.dart' as _i3;
 import '../services/authentication_service.dart' as _i4;
-import '../services/weather_service.dart' as _i11;
 import '../ui/content/content_viewmodel.dart' as _i5;
 import '../ui/login/login_viewmodel.dart' as _i6;
 import '../ui/map/map_viewmodel.dart' as _i7;
@@ -37,6 +36,5 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       () => _i9.RegisterViewModel(get<_i4.AuthenticationService>()));
   gh.factory<_i10.WeatherForeastViewModel>(
       () => _i10.WeatherForeastViewModel(get<_i3.ApiWeather>()));
-  gh.lazySingleton<_i11.WeatherService>(() => _i11.WeatherService());
   return get;
 }

@@ -1,10 +1,6 @@
 class MeteoInCity {
-   const MeteoInCity({
-    this.ville,
-    this.description,
-    this.icon,
-    this.temperature
-  });
+  const MeteoInCity(
+      {this.ville, this.description, this.icon, this.temperature});
 
   final String? ville;
   final String? temperature;
@@ -20,8 +16,7 @@ class MeteoInCity {
       );
 */
 
-  factory MeteoInCity.fromJson(Map<String, dynamic> json){
-
+  factory MeteoInCity.fromJson(Map<String, dynamic> json) {
     var weatherobj = json['weather'];
     var descrip = weatherobj[0]['description'];
     var ico = weatherobj[0]['icon'];
@@ -32,10 +27,9 @@ class MeteoInCity {
     var villeName = json['name'];
 
     return MeteoInCity(
-      ville: villeName,
-      description: descrip,
-      icon: ico,
-      temperature: temp.toString());
+        ville: villeName,
+        description: descrip,
+        icon: ico,
+        temperature: temp.toString());
   }
-
 }

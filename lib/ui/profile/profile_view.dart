@@ -61,8 +61,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                       obscureText: true,
                                       controller:
                                           viewModel.newPasswordController,
-                                      onSubmitted: (value) =>
-                                          viewModel.verifyPassword(value),
+                                      onSubmitted: (value) => viewModel
+                                          .verifyPassword(context, value),
                                       decoration: const InputDecoration(
                                         focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -87,8 +87,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                       obscureText: true,
                                       controller:
                                           viewModel.confirmNewPassordController,
-                                      onSubmitted: (value) =>
-                                          viewModel.verifyPassword(value),
+                                      onSubmitted: (value) => viewModel
+                                          .verifyPassword(context, value),
                                       decoration: const InputDecoration(
                                         focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide(

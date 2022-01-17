@@ -44,7 +44,11 @@ class _MapPage extends State<MapPage> {
           floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.location_on_outlined),
             backgroundColor: const Color(0xff00A1FF),
-            onPressed: viewModel.getCurrentLocation,
+            onPressed: () {
+              setState(() {
+                viewModel.pinUserInMap();
+              });
+            },
           ),
         );
       },

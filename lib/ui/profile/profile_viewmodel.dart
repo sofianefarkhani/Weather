@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 import 'package:weather/services/authentication_service.dart';
+import 'package:weather/utils/utils.dart';
 
 @injectable
 class ProfileViewModel extends BaseViewModel {
   final AuthenticationService _authenticationService;
   ProfileViewModel(this._authenticationService);
-
-  String _displayedError = "";
-  String get displayedError => _displayedError;
 
   final TextEditingController _newPasswordController = TextEditingController();
   TextEditingController get newPasswordController => _newPasswordController;
@@ -19,24 +17,16 @@ class ProfileViewModel extends BaseViewModel {
   TextEditingController get confirmNewPassordController =>
       _confirmNewPasswordController;
 
-  bool verifyPassword(String value) {
-    bool isValid = true;
-
-    if (value.length < 6) {
-      isValid = false;
-      _displayedError = "Ton mot de passe est trop court";
-      notifyListeners();
-    } else {
-      _displayedError = "";
-      notifyListeners();
-    }
+  bool verifyPassword(BuildContext context, String value) {
+    bool isValid = Utils.verifyPassword(context, value);
+    notifyListeners();
 
     return isValid;
   }
 
   updateProfile(BuildContext context) async {
-    if (verifyPassword(_newPasswordController.text) &&
-        verifyPassword(_confirmNewPasswordController.text) &&
+    if (verifyPassword(context, _newPasswordController.text) &&
+        verifyPassword(context, _confirmNewPasswordController.text) &&
         _newPasswordController.text == _confirmNewPasswordController.text) {
       await _authenticationService.updatePassword(
           _newPasswordController.text, context);
@@ -51,7 +41,7 @@ class ProfileViewModel extends BaseViewModel {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                displayMessage(context, 'Action annulée');
+                Utils.displayMessage(context, 'Action annulée');
               },
               child: const Text('NON'),
             ),
@@ -59,7 +49,8 @@ class ProfileViewModel extends BaseViewModel {
               onPressed: () async {
                 await _authenticationService.deleteUser(context);
                 Navigator.of(context).pop();
-                displayMessage(context, "Le compte vient d'être supprimé");
+                Utils.displayMessage(
+                    context, "Le compte vient d'être supprimé");
                 Navigator.of(context).pop();
               },
               child: const Text('OUI'),
@@ -67,16 +58,4 @@ class ProfileViewModel extends BaseViewModel {
           ],
         ),
       );
-
-  displayMessage(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          style: const TextStyle(color: Colors.black),
-        ),
-        backgroundColor: Colors.white,
-      ),
-    );
-  }
 }

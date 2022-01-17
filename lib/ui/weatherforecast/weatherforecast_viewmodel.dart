@@ -25,7 +25,7 @@ String getCurrentUID() {
   }
 
   final ApiWeather _meteo;
-  List<MeteoInCity> _meteos = [];
+  final List<MeteoInCity> _meteos = [];
 
   List<MeteoInCity> get meteos => _meteos;
 
@@ -38,16 +38,19 @@ String getCurrentUID() {
   CarouselController get carouselController => _carouselController;
 
   Future initialize() async {
-    await _meteo.getMeteoInTime("Limoges"); 
-    if(locator<AuthenticationService>().weatherUser !=null){
-      for(var item in locator<AuthenticationService>().weatherUser!.villes!){
-        MeteoInCity? meteoDansLaVille = await _meteo.getMeteoInTime(item.toString());
-        if(meteoDansLaVille!=null) {
+    await _meteo.getMeteoInTime("Limoges");
+    if (locator<AuthenticationService>().weatherUser != null) {
+      for (var item in locator<AuthenticationService>().weatherUser!.villes!) {
+        MeteoInCity? meteoDansLaVille =
+            await _meteo.getMeteoInTime(item.toString());
+        if (meteoDansLaVille != null) {
           _meteos.add(meteoDansLaVille);
         }
       }
     }
+    notifyListeners();
   }
+
 
   void deleteCityOfList(String villeDelete){
       var villes  = [];
@@ -57,5 +60,8 @@ String getCurrentUID() {
       initialize();
   }
 
-  carouselChangeCity(int index, CarouselPageChangedReason reason) {}
+  void carouselChangeCity(int index, CarouselPageChangedReason reason) {
+    _currentIndex = index;
+  }
+
 }
