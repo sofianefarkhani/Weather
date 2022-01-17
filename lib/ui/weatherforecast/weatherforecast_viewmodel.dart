@@ -2,12 +2,15 @@ import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 import 'package:weather/di/dependency_graph.dart';
 import 'package:weather/model/meteoInCity.dart';
 import 'package:weather/services/apiWeather_service.dart';
 import 'package:weather/services/authentication_service.dart';
+import 'package:weather/ui/map/map_viewmodel.dart';
 
 @injectable
 class WeatherForeastViewModel extends BaseViewModel {
@@ -44,6 +47,15 @@ class WeatherForeastViewModel extends BaseViewModel {
         if (meteoDansLaVille != null) {
           _meteos.add(meteoDansLaVille);
         }
+      }
+      if (_meteos.isEmpty) {
+        MapViewModel mapViewModel = MapViewModel();
+        Position _position = await mapViewModel.determinePosition();
+        List<Placemark> placemarks = await placemarkFromCoordinates(
+            _position.latitude, _position.longitude);
+        MeteoInCity? meteoUser =
+            await _meteo.getMeteoInTime(placemarks.first.locality!);
+        _meteos.add(meteoUser!);
       }
     }
     notifyListeners();

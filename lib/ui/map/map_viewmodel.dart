@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:weather/utils/utils.dart';
 
 @injectable
 class MapViewModel extends BaseViewModel {
@@ -23,19 +25,20 @@ class MapViewModel extends BaseViewModel {
     return uid;
   }
 
-  Future addMarker(LatLng pos) async {
+  Future addMarker(BuildContext context, LatLng pos) async {
     List<Placemark> placemarks =
         await placemarkFromCoordinates(pos.latitude, pos.longitude);
     String? city = placemarks.first.locality;
-    markers.add(Marker(
-      markerId: const MarkerId("id"),
-      position: pos,
-      infoWindow: InfoWindow(
-        title: city,
+    markers.add(
+      Marker(
+        markerId: const MarkerId("id"),
+        position: pos,
+        infoWindow: InfoWindow(
+          title: city,
+        ),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
       ),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-    ));
-
+    );
     notifyListeners();
   }
 
@@ -48,10 +51,10 @@ class MapViewModel extends BaseViewModel {
     });
   }
 
-  Future pinUserInMap() async {
-    Position _position = await _determinePosition();
+  Future pinUserInMap(BuildContext context) async {
+    Position _position = await determinePosition();
     LatLng _currentPos = LatLng(_position.latitude, _position.longitude);
-    await addMarker(_currentPos);
+    await addMarker(context, _currentPos);
     mapController!.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
@@ -63,7 +66,7 @@ class MapViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<Position> _determinePosition() async {
+  Future<Position> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 

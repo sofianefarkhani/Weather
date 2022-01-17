@@ -34,17 +34,13 @@ class _MapPage extends State<MapPage> {
             myLocationEnabled: false,
             zoomGesturesEnabled: true,
             myLocationButtonEnabled: false,
-            onLongPress: (pos) => viewModel.addMarker(pos),
+            onLongPress: (pos) => viewModel.addMarker(context, pos),
             markers: viewModel.markers.toSet(),
           ),
           floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.location_on_outlined),
             backgroundColor: const Color(0xff00A1FF),
-            onPressed: () {
-              setState(() {
-                viewModel.pinUserInMap();
-              });
-            },
+            onPressed: () => viewModel.pinUserInMap(context),
           ),
         );
       },
