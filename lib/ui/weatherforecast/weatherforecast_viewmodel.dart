@@ -41,7 +41,6 @@ class WeatherForeastViewModel extends BaseViewModel {
   CarouselController get carouselController => _carouselController;
 
   Future initialize() async {
-    await _meteo.getMeteoInTime("Limoges");
     if (locator<AuthenticationService>().weatherUser != null) {
       for (var item in locator<AuthenticationService>().weatherUser!.villes!) {
         MeteoInCity? meteoDansLaVille =
