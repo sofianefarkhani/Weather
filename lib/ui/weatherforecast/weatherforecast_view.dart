@@ -11,6 +11,7 @@ class WeatherForecastPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<WeatherForeastViewModel>.reactive(
+      
       viewModelBuilder: () => locator<WeatherForeastViewModel>(),
       onModelReady: (model) async => await model.initialize(),
       builder: (context, viewModel, child) => Scaffold(

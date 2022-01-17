@@ -26,11 +26,15 @@ class WeatherForeastViewModel extends BaseViewModel {
   }
 
   final ApiWeather _meteo;
-  final List<MeteoInCity> _meteos = [];
+  List<MeteoInCity> _meteos = [];
 
   
 
   List<MeteoInCity> get meteos => _meteos;
+  set meteosSet(List<MeteoInCity> listVilles){
+    _meteos = listVilles;
+  }
+  
 
   WeatherForeastViewModel(this._meteo);
 
@@ -59,20 +63,29 @@ class WeatherForeastViewModel extends BaseViewModel {
         _meteos.add(meteoUser!);
       }
     }
+
+    locator<WeatherForeastViewModel>()._meteos =  _meteos;
+
     notifyListeners();
   }
 
-  void deleteCityOfList(String villeDelete) {
+  deleteCityOfList(String villeDelete) {
     var villes = [];
     villes.add(villeDelete);
+    //suppression en bdd
     var userInfo = _firestore.collection('users').doc(getCurrentUID());
     userInfo.update({
       'ville': FieldValue.arrayRemove(villes),
     });
+    //suppression dans la vue
     MeteoInCity elementNeedDelete = _meteos.firstWhere(
       (element) => element.ville == villeDelete,
     );
     _meteos.remove(elementNeedDelete);
+
+    //suppression sur la liste de l'user
+    locator<AuthenticationService>().weatherUser!.villes!.remove(villeDelete);
+
     notifyListeners();
   }
 
@@ -80,9 +93,11 @@ class WeatherForeastViewModel extends BaseViewModel {
     _currentIndex = index;
   }
 
-  void addMeteoObj(MeteoInCity meteoset){
-    _meteos.add(meteoset);
+  
+  void addMeteoObj(String meteoset){
+    locator<AuthenticationService>().weatherUser!.villes!.add(meteoset);
     notifyListeners();
   }
+  
   
 }

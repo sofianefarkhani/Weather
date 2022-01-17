@@ -135,10 +135,11 @@ class MapViewModel extends BaseViewModel {
                   shape: const CircleBorder(),
                 ),
               ),
+              if(!_meteoPresentInList)
               ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  addCity(_meteoOnMap);
+                  addCity(_meteoOnMap.ville.toString());
                   Utils.displayMessage(
                       context, "La ville vient d'être ajoutée");
                 },
@@ -149,7 +150,16 @@ class MapViewModel extends BaseViewModel {
                 style: ElevatedButton.styleFrom(
                   shape: const CircleBorder(),
                 ),
-              ),
+              )
+              else 
+              const Text("Ville présente dans votre liste",
+               style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.normal,
+                            )
+              )
+
             ],
           ),
         ),
@@ -158,9 +168,9 @@ class MapViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void addCity(MeteoInCity ville) {
+  void addCity(String ville) {
     var listVille = [];
-    listVille.add(ville.ville);
+    listVille.add(ville);
     var userInfo = _firestore.collection('users').doc(getCurrentUID());
     userInfo.update({
       'ville': FieldValue.arrayUnion(listVille),
@@ -226,7 +236,6 @@ class MapViewModel extends BaseViewModel {
     if (_meteoPresentInList) {
       _meteoPresentInList = false;
     }
-
     for (var item in locator<WeatherForeastViewModel>().meteos) {
       if (item.ville == villeName) {
         _meteoPresentInList = true;
