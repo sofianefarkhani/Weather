@@ -35,22 +35,32 @@ class MapViewModel extends BaseViewModel {
       ),
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
     ));
+
+    notifyListeners();
   }
 
-
-  void addCity(String ville){
+  void addCity(String ville) {
     var listVille = [];
     listVille.add(ville);
-     var userInfo = _firestore.collection('users').doc(getCurrentUID());
-      userInfo.update({'villes': FieldValue.arrayUnion(listVille), });
+    var userInfo = _firestore.collection('users').doc(getCurrentUID());
+    userInfo.update({
+      'villes': FieldValue.arrayUnion(listVille),
+    });
   }
 
   Future pinUserInMap() async {
-    print("Pin user in map");
     Position _position = await _determinePosition();
-    print("Lat : " + _position.latitude.toString());
-    print("Long : " + _position.longitude.toString());
-    //await addMarker(_userCurrentLocation);
+    LatLng _currentPos = LatLng(_position.latitude, _position.longitude);
+    await addMarker(_currentPos);
+    mapController!.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: _currentPos,
+          zoom: 9,
+        ),
+      ),
+    );
+    notifyListeners();
   }
 
   Future<Position> _determinePosition() async {
@@ -89,5 +99,4 @@ class MapViewModel extends BaseViewModel {
     // continue accessing the position of the device.
     return await Geolocator.getCurrentPosition();
   }
-
 }

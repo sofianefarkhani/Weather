@@ -34,11 +34,7 @@ class _MapPage extends State<MapPage> {
             myLocationEnabled: false,
             zoomGesturesEnabled: true,
             myLocationButtonEnabled: false,
-            onLongPress: (pos) {
-              setState(() {
-                viewModel.addMarker(pos);
-              });
-            },
+            onLongPress: (pos) => viewModel.addMarker(pos),
             markers: viewModel.markers.toSet(),
           ),
           floatingActionButton: FloatingActionButton(

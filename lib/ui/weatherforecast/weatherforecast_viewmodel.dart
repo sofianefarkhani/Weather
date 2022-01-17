@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 import 'package:weather/di/dependency_graph.dart';
@@ -15,8 +14,7 @@ class WeatherForeastViewModel extends BaseViewModel {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-
-String getCurrentUID() {
+  String getCurrentUID() {
     String uid = '';
     if (_auth.currentUser != null) {
       uid = _auth.currentUser!.uid;
@@ -51,21 +49,21 @@ String getCurrentUID() {
     notifyListeners();
   }
 
-
-  void deleteCityOfList(String villeDelete){
-      var villes  = [];
-      villes.add(villeDelete);
-      var userInfo = _firestore.collection('users').doc(getCurrentUID());
-      userInfo.update({'ville': FieldValue.arrayRemove(villes), });
-      MeteoInCity elementNeedDelete = _meteos.firstWhere((element) => element.ville==villeDelete,);
-      _meteos.remove(elementNeedDelete);
-      notifyListeners();
+  void deleteCityOfList(String villeDelete) {
+    var villes = [];
+    villes.add(villeDelete);
+    var userInfo = _firestore.collection('users').doc(getCurrentUID());
+    userInfo.update({
+      'ville': FieldValue.arrayRemove(villes),
+    });
+    MeteoInCity elementNeedDelete = _meteos.firstWhere(
+      (element) => element.ville == villeDelete,
+    );
+    _meteos.remove(elementNeedDelete);
+    notifyListeners();
   }
 
   void carouselChangeCity(int index, CarouselPageChangedReason reason) {
-    
     _currentIndex = index;
-    
   }
-
 }
