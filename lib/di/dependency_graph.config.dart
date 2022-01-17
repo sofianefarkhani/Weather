@@ -7,7 +7,7 @@
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
-import '../services/apiWeather_service.dart' as _i3;
+import '../services/api_weather_service.dart' as _i3;
 import '../services/authentication_service.dart' as _i4;
 import '../ui/content/content_viewmodel.dart' as _i5;
 import '../ui/login/login_viewmodel.dart' as _i6;

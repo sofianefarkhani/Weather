@@ -7,8 +7,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 import 'package:weather/di/dependency_graph.dart';
-import 'package:weather/model/meteoInCity.dart';
-import 'package:weather/services/apiWeather_service.dart';
+import 'package:weather/model/meteo_in_city.dart';
+import 'package:weather/services/api_weather_service.dart';
 import 'package:weather/services/authentication_service.dart';
 import 'package:weather/ui/map/map_viewmodel.dart';
 

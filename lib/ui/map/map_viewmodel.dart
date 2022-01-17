@@ -7,9 +7,8 @@ import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:weather/di/dependency_graph.dart';
-import 'package:weather/model/meteoInCity.dart';
+import 'package:weather/model/meteo_in_city.dart';
 import 'package:weather/ui/weatherforecast/weatherforecast_viewmodel.dart';
-import 'package:weather/utils/utils.dart';
 
 @injectable
 class MapViewModel extends BaseViewModel {
@@ -53,7 +52,6 @@ class MapViewModel extends BaseViewModel {
       'villes': FieldValue.arrayUnion(listVille),
     });
     locator<WeatherForeastViewModel>().addMeteoObj(ville);
-
   }
 
   Future pinUserInMap(BuildContext context) async {
