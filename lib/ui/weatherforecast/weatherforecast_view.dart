@@ -117,16 +117,22 @@ class WeatherForecastPage extends StatelessWidget {
                 );
               }).toList(),
               options: CarouselOptions(
+                enableInfiniteScroll: false,
                 scrollDirection: Axis.horizontal,
                 height: MediaQuery.of(context).size.height - 360,
                 viewportFraction: 1,
-                onPageChanged: (index, reason) => viewModel.carouselChangeCity(index,reason),
+                onPageChanged: (index, reason) =>
+                    viewModel.carouselChangeCity(index, reason),
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 40),
               child: GestureDetector(
-                onTap: () => {viewModel.deleteCityOfList(viewModel.meteos[viewModel.currentIndex].ville!.toString())},
+                onTap: () => {
+                  viewModel.deleteCityOfList(viewModel
+                      .meteos[viewModel.currentIndex].ville!
+                      .toString())
+                },
                 child: const GlowText(
                   'Supprimer la ville',
                   style: TextStyle(
