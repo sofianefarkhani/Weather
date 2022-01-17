@@ -8,13 +8,24 @@ import 'package:stacked/stacked.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:weather/di/dependency_graph.dart';
 import 'package:weather/model/meteo_in_city.dart';
+import 'package:weather/services/api_weather_service.dart';
 import 'package:weather/ui/weatherforecast/weatherforecast_viewmodel.dart';
+import 'package:weather/utils/utils.dart';
 
 @injectable
 class MapViewModel extends BaseViewModel {
   GoogleMapController? mapController;
 
   Set<Marker> markers = {};
+
+  late MeteoInCity _meteoOnMap;
+  MeteoInCity get meteoOnMap=>_meteoOnMap;
+
+  bool _meteoPresentInList = false;
+  bool get meteoPresentInList=>_meteoPresentInList;
+
+
+
 
   //partie firebase
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -52,6 +63,7 @@ class MapViewModel extends BaseViewModel {
       'villes': FieldValue.arrayUnion(listVille),
     });
     locator<WeatherForeastViewModel>().addMeteoObj(ville);
+
   }
 
   Future pinUserInMap(BuildContext context) async {
@@ -105,4 +117,25 @@ class MapViewModel extends BaseViewModel {
     // continue accessing the position of the device.
     return await Geolocator.getCurrentPosition();
   }
+
+  void checkAndDisplayMeteoOnPoint(String villeName){
+    //si on change de ville on verifie bien que la presence du nom de la ville soi a faut avant de regarder si elle y est
+    if(_meteoPresentInList){
+      _meteoPresentInList=false;
+    }
+
+    for(var item in locator<WeatherForeastViewModel>().meteos){
+      if(item.ville==villeName){
+        _meteoPresentInList = true;
+      }
+    }
+    MeteoInCity? meteoDansLaVille = locator<ApiWeather>().getMeteoInTime(villeName) as MeteoInCity?;
+    if(meteoDansLaVille!= null){
+      _meteoOnMap = meteoDansLaVille;
+    }
+
+  }
+
+  
+
 }
