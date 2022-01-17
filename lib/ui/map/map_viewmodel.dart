@@ -63,25 +63,63 @@ class MapViewModel extends BaseViewModel {
                 color: Colors.white,
               ),
             ),
-            content: RichText(
-              text: TextSpan(
-                children: [
-                  const WidgetSpan(
-                    child: Icon(
-                      Icons.thermostat_rounded,
-                      color: Colors.white,
+            content: Stack(
+              children: [
+                Image.network(
+                  'http://openweathermap.org/img/wn/' +
+                      _meteoOnMap.icon! +
+                      '@4x.png',
+                  fit: BoxFit.contain,
+                  scale: 0.7,
+                  loadingBuilder: (context, child, progress) {
+                    return progress == null
+                        ? child
+                        : const LinearProgressIndicator();
+                  },
+                ),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  left: 0,
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 20),
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                const WidgetSpan(
+                                  child: Icon(
+                                    Icons.thermostat_rounded,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: _meteoOnMap.temperature! + " °C",
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Text(
+                          _meteoOnMap.description.toString(),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  TextSpan(
-                    text: _meteoOnMap.temperature! + " °C",
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
             actions: [
               ElevatedButton(
