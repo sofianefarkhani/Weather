@@ -19,13 +19,10 @@ class MapViewModel extends BaseViewModel {
   Set<Marker> markers = {};
 
   late MeteoInCity _meteoOnMap;
-  MeteoInCity get meteoOnMap=>_meteoOnMap;
+  MeteoInCity get meteoOnMap => _meteoOnMap;
 
   bool _meteoPresentInList = false;
-  bool get meteoPresentInList=>_meteoPresentInList;
-
-
-
+  bool get meteoPresentInList => _meteoPresentInList;
 
   //partie firebase
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -41,15 +38,83 @@ class MapViewModel extends BaseViewModel {
   Future addMarker(BuildContext context, LatLng pos) async {
     List<Placemark> placemarks =
         await placemarkFromCoordinates(pos.latitude, pos.longitude);
-    String? city = placemarks.first.locality;
+    String? cityName = placemarks.first.locality;
+    mapController!.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: pos,
+          zoom: 10,
+        ),
+      ),
+    );
+    await checkAndDisplayMeteoOnPoint(cityName!);
     markers.add(
       Marker(
         markerId: const MarkerId("id"),
         position: pos,
-        infoWindow: InfoWindow(
-          title: city,
-        ),
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+        onTap: () => showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: Colors.black,
+            title: Text(
+              cityName.toUpperCase(),
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            content: RichText(
+              text: TextSpan(
+                children: [
+                  const WidgetSpan(
+                    child: Icon(
+                      Icons.thermostat_rounded,
+                      color: Colors.white,
+                    ),
+                  ),
+                  TextSpan(
+                    text: _meteoOnMap.temperature! + " °C",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Utils.displayMessage(context, "La ville n'a pas été ajoutée");
+                },
+                child: const Icon(
+                  Icons.close,
+                  color: Colors.white,
+                ),
+                style: ElevatedButton.styleFrom(
+                  shape: const CircleBorder(),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  addCity(_meteoOnMap);
+                  Utils.displayMessage(
+                      context, "La ville vient d'être ajoutée");
+                },
+                child: const Icon(
+                  Icons.add_rounded,
+                  color: Colors.white,
+                ),
+                style: ElevatedButton.styleFrom(
+                  shape: const CircleBorder(),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
     notifyListeners();
@@ -60,10 +125,10 @@ class MapViewModel extends BaseViewModel {
     listVille.add(ville.ville);
     var userInfo = _firestore.collection('users').doc(getCurrentUID());
     userInfo.update({
-      'villes': FieldValue.arrayUnion(listVille),
+      'ville': FieldValue.arrayUnion(listVille),
     });
     locator<WeatherForeastViewModel>().addMeteoObj(ville);
-
+    notifyListeners();
   }
 
   Future pinUserInMap(BuildContext context) async {
@@ -118,24 +183,21 @@ class MapViewModel extends BaseViewModel {
     return await Geolocator.getCurrentPosition();
   }
 
-  void checkAndDisplayMeteoOnPoint(String villeName){
+  Future checkAndDisplayMeteoOnPoint(String villeName) async {
     //si on change de ville on verifie bien que la presence du nom de la ville soi a faut avant de regarder si elle y est
-    if(_meteoPresentInList){
-      _meteoPresentInList=false;
+    if (_meteoPresentInList) {
+      _meteoPresentInList = false;
     }
 
-    for(var item in locator<WeatherForeastViewModel>().meteos){
-      if(item.ville==villeName){
+    for (var item in locator<WeatherForeastViewModel>().meteos) {
+      if (item.ville == villeName) {
         _meteoPresentInList = true;
       }
     }
-    MeteoInCity? meteoDansLaVille = locator<ApiWeather>().getMeteoInTime(villeName) as MeteoInCity?;
-    if(meteoDansLaVille!= null){
+    MeteoInCity? meteoDansLaVille =
+        await locator<ApiWeather>().getMeteoInTime(villeName);
+    if (meteoDansLaVille != null) {
       _meteoOnMap = meteoDansLaVille;
     }
-
   }
-
-  
-
 }
