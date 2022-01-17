@@ -15,6 +15,7 @@ class ApiWeather with ReactiveServiceMixin {
   MeteoInCity? _meteo;
   // GETTERS
   MeteoInCity? get meteo => _meteo;
+  
 
   Future<MeteoInCity?> getMeteoInTime(String ville) async{
 

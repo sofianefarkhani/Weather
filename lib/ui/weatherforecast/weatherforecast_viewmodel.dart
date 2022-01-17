@@ -28,6 +28,8 @@ class WeatherForeastViewModel extends BaseViewModel {
   final ApiWeather _meteo;
   final List<MeteoInCity> _meteos = [];
 
+  
+
   List<MeteoInCity> get meteos => _meteos;
 
   WeatherForeastViewModel(this._meteo);
@@ -78,4 +80,10 @@ class WeatherForeastViewModel extends BaseViewModel {
   void carouselChangeCity(int index, CarouselPageChangedReason reason) {
     _currentIndex = index;
   }
+
+  void addMeteoObj(MeteoInCity meteoset){
+    _meteos.add(meteoset);
+    notifyListeners();
+  }
+  
 }

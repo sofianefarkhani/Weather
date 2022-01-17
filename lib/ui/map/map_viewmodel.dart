@@ -6,6 +6,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:weather/di/dependency_graph.dart';
+import 'package:weather/model/meteoInCity.dart';
+import 'package:weather/ui/weatherforecast/weatherforecast_viewmodel.dart';
 import 'package:weather/utils/utils.dart';
 
 @injectable
@@ -42,13 +45,15 @@ class MapViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void addCity(String ville) {
+  void addCity(MeteoInCity ville) {
     var listVille = [];
-    listVille.add(ville);
+    listVille.add(ville.ville);
     var userInfo = _firestore.collection('users').doc(getCurrentUID());
     userInfo.update({
       'villes': FieldValue.arrayUnion(listVille),
     });
+    locator<WeatherForeastViewModel>().addMeteoObj(ville);
+
   }
 
   Future pinUserInMap(BuildContext context) async {
