@@ -8,13 +8,12 @@ import 'package:weather/utils/utils.dart';
 
 @lazySingleton
 class AuthenticationService with ReactiveServiceMixin {
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   WeatherUser? _user;
-
   // GETTERS
-
   WeatherUser? get weatherUser => _user;
 
   Stream<User?> get user {
@@ -31,6 +30,7 @@ class AuthenticationService with ReactiveServiceMixin {
 
   User? get currentUser => _auth.currentUser;
 
+  //On récupère les infos de notre utilisateur
   Future<WeatherUser> getWeatherUserFromFirestore() async {
     final userData =
         await _firestore.collection('users').doc(getCurrentUID()).get();
@@ -39,8 +39,7 @@ class AuthenticationService with ReactiveServiceMixin {
     return weatherUser;
   }
 
-  // METHODS
-
+  // METHOD qui permet la connexion
   Future signInWithEmailAndPassword(
       String email, String password, BuildContext context) async {
     try {
@@ -61,10 +60,12 @@ class AuthenticationService with ReactiveServiceMixin {
     }
   }
 
+  //METHOD pour la déconnexion
   Future logout() async {
     await _auth.signOut();
   }
 
+  //METHOD pour l'inscription
   Future registerWithEmailAndPassword(
       String email, String password, String name, BuildContext context) async {
     try {
@@ -77,7 +78,8 @@ class AuthenticationService with ReactiveServiceMixin {
             .doc(userCreds.user!.uid)
             .set({'name': name, 'ville': []});
       }
-    } on FirebaseAuthException catch (exception) {
+    } 
+    on FirebaseAuthException catch (exception) {
       switch (exception.code) {
         case 'email-already-in-use':
           Utils.displayMessage(context, "Email déjà utilisé");
@@ -93,10 +95,12 @@ class AuthenticationService with ReactiveServiceMixin {
     }
   }
 
+  //METHOD de modification de MDP
   Future updatePassword(String newPassword, BuildContext context) async {
     try {
       await _auth.currentUser!.updatePassword(newPassword);
-    } on FirebaseAuthException catch (exception) {
+    } 
+    on FirebaseAuthException catch (exception) {
       switch (exception.code) {
         case 'requires-recent-login':
           Utils.displayMessage(context,
@@ -110,11 +114,13 @@ class AuthenticationService with ReactiveServiceMixin {
     }
   }
 
+  //METHOD pour supprimer le compte
   Future deleteUser(BuildContext context) async {
     try {
       _firestore.collection('users').doc(currentUser!.uid).delete();
       await _auth.currentUser!.delete();
-    } on FirebaseAuthException catch (exception) {
+    } 
+    on FirebaseAuthException catch (exception) {
       if (exception.code == 'requires-recent-login') {
         Utils.displayMessage(context,
             "L'utilisateur doit se reconnecter afin de pouvoir réaliser cette opération.");

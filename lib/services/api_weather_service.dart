@@ -7,10 +7,12 @@ import 'package:dio/dio.dart';
 
 @lazySingleton
 class ApiWeather with ReactiveServiceMixin {
+  
   MeteoInCity? _meteo;
   // GETTERS
   MeteoInCity? get meteo => _meteo;
-
+  
+  //o récupère la météo en temp réelle pour une ville
   Future<MeteoInCity?> getMeteoInTime(String ville) async {
     try {
       var response = await Dio().get(
@@ -20,7 +22,8 @@ class ApiWeather with ReactiveServiceMixin {
 
       final meteo = MeteoInCity.fromJson(jsonDecode(response.toString()));
       _meteo = meteo;
-    } catch (ex) {
+    } 
+    catch (ex) {
       if (kDebugMode) {
         print(ex.toString());
       }
