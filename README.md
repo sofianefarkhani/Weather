@@ -20,6 +20,9 @@ La méteo logué dans ta poche
           -Affiche une PopUp avec la météo du lieux et un raccourci lui permetant de d'ajouter le lieux a sa page de Météo.  
 - La version se build sur un iphone 13  
 
+## Vidéo
+[Lien vers la vidéo](https://youtu.be/9sFct__tFhs)
+
 ## Documentations
 [API Weather](https://weather.com/swagger-docs/ui/sun/v1/sunV1DailyForecast.json)
 
