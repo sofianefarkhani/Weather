@@ -59,6 +59,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 20),
                                           child: TextField(
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                            cursorColor: Colors.white,
                                             controller:
                                                 viewModel.emailController,
                                             onSubmitted: (value) {
@@ -87,6 +91,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                           margin:
                                               const EdgeInsets.only(bottom: 20),
                                           child: TextField(
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                            cursorColor: Colors.white,
                                             obscureText: true,
                                             controller:
                                                 viewModel.passwordController,
@@ -111,7 +119,11 @@ class _RegisterPageState extends State<RegisterPage> {
                                           ),
                                         ),
                                         TextField(
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                          ),
                                           controller: viewModel.nameController,
+                                          cursorColor: Colors.white,
                                           decoration: const InputDecoration(
                                             focusedBorder: OutlineInputBorder(
                                               borderSide: BorderSide(

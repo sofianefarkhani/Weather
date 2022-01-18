@@ -58,6 +58,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 20),
                                     child: TextField(
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                      cursorColor: Colors.white,
                                       obscureText: true,
                                       controller:
                                           viewModel.newPasswordController,
@@ -84,6 +88,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                   Container(
                                     margin: const EdgeInsets.only(bottom: 20),
                                     child: TextField(
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                      cursorColor: Colors.white,
                                       obscureText: true,
                                       controller:
                                           viewModel.confirmNewPassordController,
